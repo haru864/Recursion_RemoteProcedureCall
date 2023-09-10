@@ -1,0 +1,4 @@
+{
+    "server_address_file_path": "/tmp/socket_file",
+    "buffer_size": 256
+}
