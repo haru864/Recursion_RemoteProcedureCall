@@ -4,13 +4,12 @@ import json
 import rpc_function
 
 
-current_path = os.path.abspath(os.path.dirname(__file__))
-config_path = os.path.join(current_path, "..", "setting", "config.json")
-with open(config_path, "r") as file:
-    config = json.load(file)
-
-
 def main() -> None:
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    config_path = os.path.join(current_path, "..", "setting", "config.json")
+    with open(config_path, "r") as file:
+        config = json.load(file)
+
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
     buf_size = config["buffer_size"]
