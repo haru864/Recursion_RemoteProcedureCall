@@ -3,20 +3,20 @@ import math
 import collections
 
 
-def _floor(x: float) -> int:
+def floor(x: float) -> int:
     return int(x)
 
 
-def _nroot(n: int, x: int) -> int:
+def nroot(n: int, x: int) -> int:
     return math.pow(x, 1 / n)
 
 
-def _reverse(s: str) -> str:
+def reverse(s: str) -> str:
     s_reversed = "".join(list(reversed(s)))
     return s_reversed
 
 
-def _validAnagram(s1: str, s2: str) -> bool:
+def validAnagram(s1: str, s2: str) -> bool:
     if len(s1) != len(s2):
         return False
     map1 = collections.defaultdict(lambda: 0)
@@ -27,17 +27,17 @@ def _validAnagram(s1: str, s2: str) -> bool:
     return map1 == map2
 
 
-def _sort(strArr: list[str]) -> list[str]:
+def sort(strArr: list[str]) -> list[str]:
     strArr_reversed = list(sorted(strArr))
     return strArr_reversed
 
 
 METHOD_TO_CALLABLE = {
-    "floor": _floor,
-    "nroot": _nroot,
-    "reverse": _reverse,
-    "validAnagram": _validAnagram,
-    "sort": _sort,
+    "floor": floor,
+    "nroot": nroot,
+    "reverse": reverse,
+    "validAnagram": validAnagram,
+    "sort": sort,
 }
 
 METHOD_TO_PARAM_TYPES = {
@@ -49,36 +49,16 @@ METHOD_TO_PARAM_TYPES = {
 }
 
 
-def executeRpcFunction(json_data: dict[str, Any]) -> dict[str, Any]:
-    """
-    request sample
-    {
-       "method": "subtract",
-       "params": [42, 23],
-       "param_types": ["int", "int"],
-       "id": 1
-    }
-    response sample
-    {
-       "results": "19",
-       "result_type": "int",
-       "id": 1
-    }
-    """
+def executeRpcFunction(
+    method: str, params: list[Any], param_types: list[str]
+) -> dict[str, str]:
     try:
-        method = json_data["method"]
-        params = json_data["params"]
-        param_types = json_data["param_types"]
-        id = json_data["id"]
-        # print(f"method -> {method}")
-        # print(f"param_types -> {param_types}")
         if METHOD_TO_PARAM_TYPES[method] != param_types:
             return {"error": "'param_types' is invalid"}
         result = METHOD_TO_CALLABLE[method](*params)
         resp_data = {}
         resp_data["results"] = result
         resp_data["result_type"] = str(type(result)).split("'")[1]
-        resp_data["id"] = id
         return resp_data
     except Exception as e:
         print(str(e))

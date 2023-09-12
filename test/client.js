@@ -33,6 +33,7 @@ const client = net.createConnection({ path: SOCKET_PATH }, () => {
 
 function sendNextRequest() {
     if (currentRequestIndex < requests.length) {
+        console.log('Sending ' + requests[currentRequestIndex]);
         client.write(requests[currentRequestIndex]);
         currentRequestIndex++;
     } else {
@@ -41,7 +42,7 @@ function sendNextRequest() {
 }
 
 client.on('data', (data) => {
-    console.log(data.toString());
+    console.log('Received ' + data.toString());
     sendNextRequest();
 });
 
